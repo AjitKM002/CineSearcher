@@ -8,7 +8,7 @@ const setupHttpHeaders = () => {
 };
 
 const initializeAxios = () => {
-  axios.defaults.baseURL = `http://www.omdbapi.com/?apikey=${apiKey}`;
+  axios.defaults.baseURL = `https://www.omdbapi.com/?apikey=${apiKey}`;
   setupHttpHeaders();
 };
 
