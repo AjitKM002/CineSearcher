@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import {
-  Box,
   Checkbox,
   Button,
-  Input,
-  VStack,
   HStack,
-  Text,
 } from "@chakra-ui/react";
 import useMovieStore from "../stores/MovieStore";
 
