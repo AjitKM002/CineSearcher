@@ -7,7 +7,7 @@ export const Navbar = () => {
       <div className="w-full max-w-xl">
         <nav className="flex items-center justify-evenly w-full">
           <Text fontSize="2xl" fontWeight="bold">
-            CineSearcher
+            <span className="text-blue-600">Cine</span>Searcher
           </Text>
           <Link to="/" className="hover:underline">Home</Link>
             <Link to="/favorites" className="hover:underline">Favorites</Link>

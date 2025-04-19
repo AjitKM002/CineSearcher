@@ -79,6 +79,36 @@ const useMovieStore = create((set,get) => ({
       localStorage.removeItem("MovieHistory");
       return { movies: [] };
     }),
+    filterOptions: {
+      year: "",
+      types: { movie: false, series: false },
+    },
+  
+    setFilterOptions: (filters) =>
+      set(() => ({ filterOptions: filters })),
+  
+    clearFilters: () =>
+      set(() => ({
+        filterOptions: { year: "", types: { movie: false, series: false } },
+      })),
+  
+    applyFilters: () => {
+      const { originalSearchResult, filterOptions } = get();
+      const { year, types } = filterOptions;
+  
+      const filtered = originalSearchResult.filter((movie) => {
+        const matchesYear = year ? movie.Year === year : true;
+        const matchesType =
+          (types.movie && movie.Type === "movie") ||
+          (types.series && movie.Type === "series") ||
+          (!types.movie && !types.series);
+  
+        return matchesYear && matchesType;
+      });
+  
+      set({ searchResult: filtered });
+    },
+  
 }));
 
 export default useMovieStore;

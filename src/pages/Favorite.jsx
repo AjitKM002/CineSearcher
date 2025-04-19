@@ -11,7 +11,7 @@ export const Favorite = () => {
         {favMovies.map((m) => (
           <div
             key={m.id}
-            className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between bg-blue-950 py-5 px-6 rounded-lg border-l-4 border-white"
+            className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between bg-blue-950 py-5 px-6 rounded-lg border-l-4 border-blue-300"
           >
             <Text fontSize="lg" fontWeight="semibold" color="white">
               {m.title}

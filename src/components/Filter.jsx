@@ -1,48 +1,57 @@
-import { useState } from "react";
-import { Button } from "@chakra-ui/react";
+import React, { useState } from "react";
+import {
+  Box,
+  Checkbox,
+  Button,
+  Input,
+  VStack,
+  HStack,
+  Text,
+} from "@chakra-ui/react";
 import useMovieStore from "../stores/MovieStore";
 
 export const Filter = ({ onclose }) => {
-  const { originalSearchResult, setsearchResult } = useMovieStore();
-  
+  const {
+    setFilterOptions,
+    applyFilters,
+    clearFilters,
+    setsearchResult,
+    originalSearchResult,
+  } = useMovieStore();
+
   const [year, setYear] = useState("");
-  const [categories, setCategories] = useState({
+  const [types, setTypes] = useState({
     movie: false,
     series: false,
   });
 
-  const handleCheckboxChange = (e) => {
-    const { id, checked } = e.target;
-    setCategories((prev) => ({
+  const toggleType = (type) => {
+    setTypes((prev) => ({
       ...prev,
-      [id]: checked,
+      [type]: !prev[type],
     }));
   };
 
-  const applyFilter = () => {
-    const { movie, series } = categories;
+  const handleApply = () => {
+    const noFilters = !year && !types.movie && !types.series;
 
-    const noFiltersApplied = !year && !movie && !series;
-
-    if (noFiltersApplied) {
-    
+    if (noFilters) {
+      clearFilters();
       setsearchResult(originalSearchResult);
-      if (onclose) onclose();
-      return;
+    } else {
+      setFilterOptions({ year, types });
+      applyFilters();
     }
 
-    const filtered = originalSearchResult.filter((movieObj) => {
-      const matchesYear = year ? movieObj.Year === year : true;
-      const matchesType =
-        movie && series
-          ? true
-          : (movie && movieObj.Type === "movie") ||
-            (series && movieObj.Type === "series");
+    if (onclose) onclose();
+  };
 
-      return matchesYear && matchesType;
-    });
-
-    setsearchResult(filtered);
+  const handleClear = () => {
+    clearFilters();
+    setsearchResult(originalSearchResult);
+    setYear("");
+    setTypes({ movie: false, series: false });
+    if (onclose) onclose();
   };
 
   return (
@@ -62,32 +71,29 @@ export const Filter = ({ onclose }) => {
 
         <div className="flex flex-col space-y-2">
           <label htmlFor="category" className="text-sm font-medium">Category</label>
-          <div className="flex items-center justify-between px-1">
-            <div className="flex items-center space-x-2">
-              <input
-                id="movie"
-                type="checkbox"
-                checked={categories.movie}
-                onChange={handleCheckboxChange}
-                className="form-checkbox h-4 w-4 text-teal-600"
-              />
-              <label htmlFor="movie" className="text-sm">Movie</label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <input
-                id="series"
-                type="checkbox"
-                checked={categories.series}
-                onChange={handleCheckboxChange}
-                className="form-checkbox h-4 w-4 text-teal-600"
-              />
-              <label htmlFor="series" className="text-sm">Series</label>
-            </div>
-          </div>
+          <HStack spacing="100">
+            <Checkbox
+              isChecked={types.movie}
+              onChange={() => toggleType("movie")}
+              borderColor="gray.300"
+            >
+              Movie
+            </Checkbox>
+            <Checkbox
+              isChecked={types.series}
+              onChange={() => toggleType("series")}
+              borderColor="gray.300"
+            >
+              Series
+            </Checkbox>
+          </HStack>
         </div>
 
-        <Button colorScheme="blue" onClick={applyFilter} width="full">
+        <Button colorScheme="blue" onClick={handleApply} width="full">
           Apply
+        </Button>
+        <Button colorScheme="blue" onClick={handleClear} width="full">
+          Clear
         </Button>
       </div>
     </div>

@@ -34,6 +34,7 @@ export const MovieList = () => {
     currentPage,
     setCurrentPage,
     totalResults,
+    isFilterActive
   } = useMovieStore();
 
   const totalPages = Math.max(1, Math.ceil((totalResults || 0) / 10));
@@ -60,8 +61,10 @@ export const MovieList = () => {
   }, [searchTerm, setCurrentPage, setSearchParams]);
 
   useEffect(() => {
-    fetchMovies(debouncedSearchTerm, currentPage);
-  }, [debouncedSearchTerm, currentPage, fetchMovies]);
+    if (!isFilterActive) {
+      fetchMovies(debouncedSearchTerm, currentPage);
+    }
+  }, [debouncedSearchTerm, currentPage, fetchMovies, isFilterActive]);
 
   useEffect(() => {
     const handler = e => {
