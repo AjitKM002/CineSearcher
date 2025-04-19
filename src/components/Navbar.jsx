@@ -15,7 +15,7 @@ export const Navbar = () => {
         </nav>
         
       </div>
-      <div className="h-px bg-gray-300 w-full my-3" />
+      <div className="h-px bg-black w-full my-3" />
     </div>
   );
 };

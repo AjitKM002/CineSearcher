@@ -44,17 +44,17 @@ export const MovieCard = ({ image, title, type, releaseYear }) => {
   }
     
   return (
-    <div className="flex flex-col  items-center border-2 border-white rounded-lg p-4 bg-gray-900 shadow-lg ">
+    <div className="flex flex-col  items-center border-2 text-black border-white rounded-lg p-4 bg-gray-200 shadow-lg ">
       <img src={image==="N/A"?"/cinesearcher.png":image} alt={title} onError={(e)=>{
         e.target.onerror = null; 
         e.target.src = "/cinesearcher.png"; 
       }} className="w-56 h-72 object-cover rounded-md" />
 
       <div className="text-left w-full mt-4">
-        <Text fontSize="lg" fontWeight="bold" color="white">
+        <Text fontSize="lg" fontWeight="bold">
           {title}
         </Text>
-        <Text fontSize="sm" color="gray.400">
+        <Text fontSize="sm" color="black.200">
           {type} • {releaseYear}
         </Text>
       </div>
@@ -63,7 +63,8 @@ export const MovieCard = ({ image, title, type, releaseYear }) => {
         width="full" 
         variant="outline" 
         mt={3}
-        _hover={{ bg: "whiteAlpha.300" }}
+        color="black"
+        _hover={{ bg: "blue.300" }}
         onClick={handleDetail}
       >
         View Details
