@@ -1,8 +1,11 @@
-import { Text, IconButton } from "@chakra-ui/react";
+import { Text, IconButton, useToast } from "@chakra-ui/react";
 import useMovieStore from "../stores/MovieStore";
 import { DeleteIcon } from "@chakra-ui/icons";
 
 export const Favorite = () => {
+
+  const toast = useToast();
+
   const { favMovies, removeFavMovie } = useMovieStore();
 
   return (
@@ -21,7 +24,18 @@ export const Favorite = () => {
               <Text color="gray.200"><span className="font-semibold">Rating</span>: {m.rating}/10</Text>
               <IconButton
                 variant="ghost"
-                onClick={() => removeFavMovie(m.id)}
+                onClick={() => {
+                  removeFavMovie(m.id)
+                  toast({
+                    title: `${m.title} removed from favorites`,
+                    description: `${m.title} has been removed from your favorites.`,
+                    status: "success",
+                    variant: "subtle",
+                    duration: 3000,
+                    isClosable: true,
+                    position: "top",
+                  });
+                }}
                 aria-label="Delete"
                 icon={<DeleteIcon color="red.300" />}
               />
